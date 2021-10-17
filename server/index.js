@@ -2,23 +2,16 @@
 const express = require("express");
 const socket = require("socket.io");
 const app = express();
-const cors = require("cors");
 
-app.use(cors());
 app.use(express.json);
 
-const PORT = process.env.PORT || 3001;
+const server = require("http").createServer(app); 
+const io = require('socket.io')(server, {cors: { origin: "*" }})
 
-
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+server.listen('3001', () => {
+  console.log(`Server listening on ${3001}`);
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
-
-io = socket(server);
 io.on('connection',socket =>{
   console.log(socket.id)
 
