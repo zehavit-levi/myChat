@@ -7,16 +7,20 @@ const CONNECTION_PORT = "localhost:3001/";
 
 function App() {
 
+  //Before Login
   const [loggedIn, setLoggedIn] = useState(false);
-
   const [room,setRoom]= useState('');
   const [userName, setUserName] = useState('');
+
+  //After Login
+
 
   useEffect(()=>{
     socket = io(CONNECTION_PORT)
   },[CONNECTION_PORT])
 
   const connectToRoom = () =>{
+    setLoggedIn(true);
     socket.emit('join_room',room);
   }
 
@@ -30,7 +34,13 @@ function App() {
         </div>
         <button onClick={connectToRoom}>Enter Chat</button>
       </div>:
-      <h1>You are  Logged In!</h1>}
+      <div className="chatContainer">
+        <div className="messages"></div>
+        <div className="messageInputs">
+          <input type='text' placeholder='Message...'/>
+          <button>Send</button>
+        </div>
+      </div>}
   </div>
   );
 }
