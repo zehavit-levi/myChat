@@ -8,7 +8,13 @@ function App() {
   return (
     <div className="App">
       {!loggedIn? 
-      <h1>You are not Logged In!</h1>:
+      <div className="logIn">
+        <div className="inputs">
+          <input type="text" placeholder="Name..."/>
+          <input type="text" placeholder="Room..."/>
+        </div>
+        <button>Enter Chat</button>
+      </div>:
       <h1>You are  Logged In!</h1>}
   </div>
   );
