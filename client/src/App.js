@@ -19,6 +19,12 @@ function App() {
   useEffect(()=>{
     socket = io(CONNECTION_PORT)
   },[CONNECTION_PORT])
+ 
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessageList([...messageList, data]);
+    });
+  });
 
   const connectToRoom = () =>{
     setLoggedIn(true);
@@ -26,15 +32,16 @@ function App() {
   }
 
   const sendMessage = () =>{
-    let messgaeContent = {
+    let messageContent = {
       room: room,
       content:{
       author: userName,
       message: message
       }
     }
-    socket.emit('send_message', messgaeContent);
-    setMessageList([...messageList,messgaeContent.content]);
+
+    socket.emit("send_message", messageContent);
+    setMessageList([...messageList,messageContent.content]);
     setMessage('');
 
   }
@@ -49,7 +56,11 @@ function App() {
         <button onClick={connectToRoom}>Enter Chat</button>
       </div>:
       <div className="chatContainer">
-        <div className="messages"></div>
+        <div className="messages">
+          {messageList.map(( key,val)=>{
+            return <h1>{key.author} {key.message}</h1>
+          })}
+        </div>
         <div className="messageInputs">
           <input type='text' placeholder='Message...' onChange={(e)=>setMessage(e.target.value)}/>
           <button onClick={sendMessage}>Send</button>
