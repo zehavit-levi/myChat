@@ -19,7 +19,10 @@ io.on('connection',socket =>{
     socket.join(data);
     console.log('User Joined Room: ' + data)
   })
-
+  
+  socket.on('send_messgae', (data) =>{
+    socket.to(data.room).emit("receive_messgae",data.content);
+  })
 
 
 
