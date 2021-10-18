@@ -31,7 +31,7 @@ function App() {
     socket.emit('join_room',room);
   }
 
-  const sendMessage = () =>{
+  const sendMessage = async() =>{
     let messageContent = {
       room: room,
       content:{
@@ -40,7 +40,7 @@ function App() {
       }
     }
 
-    socket.emit("send_message", messageContent);
+    await socket.emit("send_message", messageContent);
     setMessageList([...messageList,messageContent.content]);
     setMessage('');
 
@@ -58,7 +58,9 @@ function App() {
       <div className="chatContainer">
         <div className="messages">
           {messageList.map(( key,val)=>{
-            return <h1>{key.author} {key.message}</h1>
+            return <div className="messageIndividual">
+              {key.author} {key.message}
+              </div>
           })}
         </div>
         <div className="messageInputs">
