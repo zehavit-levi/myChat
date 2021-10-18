@@ -13,7 +13,8 @@ function App() {
   const [userName, setUserName] = useState('');
 
   //After Login
-
+  const [message, setMessage] = useState('');
+  const [messageList, setMessageList] = useState([]);
 
   useEffect(()=>{
     socket = io(CONNECTION_PORT)
@@ -24,6 +25,19 @@ function App() {
     socket.emit('join_room',room);
   }
 
+  const sendMessage = () =>{
+    let messgaeContent = {
+      room: room,
+      content:{
+      author: userName,
+      message: message
+      }
+    }
+    socket.emit('send_message', messgaeContent);
+    setMessageList([...messageList,messgaeContent.content]);
+    setMessage('');
+
+  }
   return (
     <div className="App">
       {!loggedIn? 
@@ -37,8 +51,8 @@ function App() {
       <div className="chatContainer">
         <div className="messages"></div>
         <div className="messageInputs">
-          <input type='text' placeholder='Message...'/>
-          <button>Send</button>
+          <input type='text' placeholder='Message...' onChange={(e)=>setMessage(e.target.value)}/>
+          <button onClick={sendMessage}>Send</button>
         </div>
       </div>}
   </div>
