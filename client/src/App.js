@@ -31,11 +31,20 @@ function App() {
       setMessageList([...messageList, data]);
     });
   });
+  useEffect(()=>{
+    socket.on("receive_users_at_room", (data) => {
+      setUsersList([...usersList,data])
+    })
+  })
 
   const connectToRoom = () =>{
     setLoggedIn(true);
-    setUsersList([...usersList, userName])
-    socket.emit('join_room', room);
+    let data={
+      room: room,
+      userName: userName
+    }
+    setUsersList([...usersList,data.userName])
+    socket.emit('join_room', data);
   }
   
   const sendMessage = async() =>{
