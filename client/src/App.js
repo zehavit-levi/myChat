@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client'; 
 import './App.css';
+import Login from "./pages/Login/Login";
+import ChatRoom from "./pages/ChatRoom/ChatRoom";
 
 let socket;
 const CONNECTION_PORT = "localhost:3001/";
@@ -11,26 +13,31 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [room,setRoom]= useState('');
   const [userName, setUserName] = useState('');
+  const [roomList, setRoomList] = useState(['class2301','java']);
 
   //After Login
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
-
+  const [usersList, setUsersList] = useState([]);
+ 
+  
   useEffect(()=>{
     socket = io(CONNECTION_PORT)
   },[CONNECTION_PORT])
  
   useEffect(() => {
     socket.on("receive_message", (data) => {
+      console.log(data.author + ":" +data.message);
       setMessageList([...messageList, data]);
     });
   });
 
   const connectToRoom = () =>{
     setLoggedIn(true);
-    socket.emit('join_room',room);
+    setUsersList([...usersList, userName])
+    socket.emit('join_room', room);
   }
-
+  
   const sendMessage = async() =>{
     let messageContent = {
       room: room,
@@ -43,31 +50,14 @@ function App() {
     await socket.emit("send_message", messageContent);
     setMessageList([...messageList,messageContent.content]);
     setMessage('');
-
   }
+
   return (
     <div className="App">
       {!loggedIn? 
-      <div className="logIn">
-        <div className="inputs">
-          <input type="text" placeholder="Name..." onChange={(e)=>setUserName(e.target.value)}/>
-          <input type="text" placeholder="Room..." onChange={(e)=>setRoom(e.target.value)}/>
-        </div>
-        <button onClick={connectToRoom}>Enter Chat</button>
-      </div>:
-      <div className="chatContainer">
-        <div className="messages">
-          {messageList.map(( key,val)=>{
-            return <div className="messageIndividual">
-              {key.author} {key.message}
-              </div>
-          })}
-        </div>
-        <div className="messageInputs">
-          <input type='text' placeholder='Message...' onChange={(e)=>setMessage(e.target.value)}/>
-          <button onClick={sendMessage}>Send</button>
-        </div>
-      </div>}
+      <Login setRoom={setRoom} setUserName={setUserName} connectToRoom={connectToRoom} setUsersList={setUsersList} roomList={roomList} room={room}/>
+      :
+      <ChatRoom userName = {userName} messageList={messageList} room={room} setMessage={setMessage} sendMessage={sendMessage} usersList={usersList} />}
   </div>
   );
 }

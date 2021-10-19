@@ -1,0 +1,41 @@
+.form-control{
+    width: 600px;
+    height: 350px;
+    border: 5px solid rgb(66, 66, 184);
+    border-radius: 10px;
+    align-items: center;
+    background-color: transparent;
+  }
+  label{
+      color: white;
+      font-size: 15px;
+      height: 40px;
+  }
+  .form-control input,.roomList{
+    margin: 10px;
+    height: 40px;
+    border: 2px solid rgb(66, 66, 184);
+    background-color: transparent;
+    color: white;
+    font-size: 15px;
+  }
+  .form-control input:focus{
+    outline: none;
+  }
+  
+  .form-control button{
+    height: 50px;
+    border: none;
+    background-color: rgb(66, 66, 184);
+    color:white;
+    font-size: 16px;
+    margin-top: 45px;
+  }
+  .roomList{
+      width: 100%;
+  }
+  
+  .form-control button:hover{
+    background-color: rgb(49, 49, 134);
+    cursor: pointer;
+  }
