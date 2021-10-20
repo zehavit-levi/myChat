@@ -30,9 +30,9 @@ snapshot.forEach(doc => {
 async function addRoom(db,roomname){
   const res = await db.collection('rooms').doc(roomname).set({conversations:{}});
 }
-async function saveConversation(db,messageList){
+async function saveConversation(db,data){
   const datetime = getDateTime();
-  const res = await db.collection('rooms').doc(data.room).set({conversations:{...{datetime : datetime,messages: messageList}}});
+  const res = await db.collection('rooms').doc(data.room).set({conversations:{...{datetime : datetime,messages: data.messageList}}});
 }
 function getDateTime(){
   let date_ob = new Date();
@@ -90,6 +90,11 @@ io.on('connection',socket =>{
   socket.on('send_message', (data) =>{
     console.log(data);
     socket.to(data.room).emit("receive_message", data.content);
+  })
+
+  socket.on('saveConversation', (data) =>{
+    console.log(data);
+    saveConversation(db,data);
   })
 
 
