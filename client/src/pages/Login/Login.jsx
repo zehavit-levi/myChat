@@ -2,18 +2,18 @@ import { Container, Row ,Col, Form} from 'react-bootstrap';
 import './Login.css'
 function Login(props){
     return(
-        <Container>
-            <Col className="form-control">
-                <Row className="row nickname">
-                    <label for="nickname" className="col-2 col-form-label">Nickname</label>
+        <Container className="formContainer">
+            <Form className="form-control">
+                <Form.Group className="row nickname">
+                    <Form.Label for="nickname" className="col-2 col-form-label">Nickname</Form.Label>
                     <Col lg="7" >      
-                        <input id="nickname" type="text" className="form-control-plaintext" placeholder="Nickname..." onChange={(e)=>props.setUserName(e.target.value)}/>
+                        <Form.Control id="nickname" type="text" className="form-control-plaintext" placeholder="Nickname..." onChange={(e)=>props.setUserName(e.target.value)}/>
                     </Col>
-                </Row>
-                <Row className="row selectroom">
-                    <label for="selectroom" className="col-2 col-form-label">Room</label>
+                </Form.Group>
+                <Form.Group className="row selectroom">
+                    <Form.Label for="selectroom" className="col-2 col-form-label">Room</Form.Label>
                     <Col lg="5" >      
-                        <input id="selectroom" type="text" className="form-control-plaintext" placeholder="Enter new Room name..." onChange={(e)=>props.setRoom(e.target.value)}/>
+                        <Form.Control id="selectroom" type="text" className="form-control-plaintext" placeholder="Enter new Room name..." onChange={(e)=>props.setRoom(e.target.value)}/>
                     </Col>
                     <Col lg="5">
                     <Form.Control as="select"  className="roomList list-group" id="room" placeholder="Chouse room from the list..."  onChange={(e)=>props.setRoom(e.target.value)}>
@@ -23,11 +23,11 @@ function Login(props){
                      )}
                     </Form.Control>
                     </Col>
-                </Row>
+                </Form.Group>
                 <Row className="d-grid gap-2 col-4 mx-auto">
                     <button className="btn btn-primary" type="submit" onClick={props.connectToRoom}>Enter Chat</button>
                 </Row>
-            </Col>
+            </Form>
       </Container>
     )
 }

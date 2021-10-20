@@ -1,4 +1,4 @@
-.form-control{
+.formContainer{
     width: 600px;
     height: 350px;
     border: 5px solid rgb(66, 66, 184);
@@ -6,7 +6,14 @@
     align-items: center;
     background-color: transparent;
   }
-  label{
+  .form-control{
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      border: 0;
+      color: white;
+  }
+  .label{
       color: white;
       font-size: 15px;
       height: 40px;
