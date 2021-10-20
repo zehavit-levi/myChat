@@ -5,17 +5,16 @@
     border-radius: 10px;
     position: relative;
 }
-.col.chatUsersList{
+.chatUsersList{
     color: white;
-    width: 20%;
+    border: 2px solid palevioletred;
 }
-.chatContainer{
-    width: 80%;
-  }
-  
+
   .chatContainer .messages{
-    height: 80%;
+    height:100%;
     width: 100%;
+    padding: 0;
+    position: relative;
   }
   
   
@@ -35,14 +34,14 @@
     font-size: 18px;
   }
   
-  .chatContainer .messageInputs button:hover{
+  .chatContainer .messageInputs .button:hover{
     background-color: rgb(49, 49, 134);
     cursor: pointer;
   }
   
   .messageIndividual{
     width: 200px;
-    height: auto;
+    height: 30px;
     background-color: rgb(66, 66, 184);
     color:white;
     margin: 10px;
@@ -54,13 +53,37 @@
   .messageContainer{
     display: flex;
     width: calc(100%-30px);
+    position: relative;
   }
   
   .messageContainer#You{
-    justify-content: flex-start;
-  }
-  .messageContainer#Other{
+    height: fit-content;
     justify-content: flex-end;
+
+  }
+  .messageContainer#Other::before{
+  left: 13px;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid rgb(114, 114, 189);;
+  content: "";
+    position: absolute;
+    top: 15px;
+    width: 0;
+    height: 0;
+  }
+  .messageContainer#You::before{
+    right: 13px;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid rgb(66, 66, 184);
+    content: "";
+      position: absolute;
+      top: 15px;
+      width: 0;
+      height: 0;
+    }
+  .messageContainer#Other{
+    height: fit-content;
+    justify-content: flex-start;
   }
   
   #Other .messageIndividual{
@@ -71,4 +94,7 @@
     position: absolute;
     bottom: 10px;
     width: 100%;
+  }
+  .usersandchatrow{
+    height: 80%;
   }
