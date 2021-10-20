@@ -32,7 +32,7 @@ async function addRoom(db,roomname){
 }
 async function saveConversation(db,data){
   const datetime = getDateTime();
-  const res = await db.collection('rooms').doc(data.room).set({conversations:{...{datetime : datetime,messages: data.messageList}}});
+  const res = await db.collection('rooms').doc(data.room).collection('conversations').doc(datetime).set({messages: data.messageList});
 }
 function getDateTime(){
   let date_ob = new Date();
@@ -78,6 +78,7 @@ const io = require('socket.io')(server, {cors: { origin: "*" }})
 
 
 io.on('connection',socket =>{
+
   console.log(socket.id)
   socket.on('join_room', (data) =>{
     // addUser(db,data,socket.id);
