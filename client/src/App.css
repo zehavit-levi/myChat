@@ -6,8 +6,9 @@ body{
   display: grid;
   place-items: center;
   height: 100vh;
-  background-color: rgb(14, 14, 78);
+  background-color: #e3f5f9;
   box-sizing: border-box;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
 }
 
 

@@ -5,9 +5,19 @@
     border-radius: 10px;
     position: relative;
 }
+.chatRoomContainer .title{
+  color: white;
+  text-align: center;
+  background: rgb(73,185,200);
+  background: linear-gradient(0deg, rgba(73,185,200,0.7486344879748774) 0%, rgba(44,104,131,1) 45%, rgba(169,189,193,1) 100%);
+margin-bottom:0
+}
 .chatUsersList{
-    color: white;
-    border: 2px solid palevioletred;
+  color: black;
+} 
+.chatContainer{
+background: rgb(76,71,164);
+background: linear-gradient(0deg, rgba(76,71,164,0.7486344879748774) 0%, rgba(220,244,255,1) 45%, rgba(150,215,228,1) 100%);
 }
 
   .chatContainer .messages{
@@ -89,7 +99,7 @@
   }
   
   .usersandchatrow{
-    height: 80%;
+    height: 76%;
   }
 
   .controllers{
