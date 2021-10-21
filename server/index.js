@@ -12,23 +12,63 @@ const config = {
 };
 firebase.initializeApp(config);
 const db = firebase.firestore();
-
+const rooms = [];
 async function getRoomsList(db) {
   const roomsRef = db.collection('rooms');
   const snapshot = await roomsRef.get();
-  const rooms = [];
 snapshot.forEach(doc => {
-  console.log(doc.id)
   rooms.push(doc.id);
 });
+ console.log(rooms);
   return rooms;
 }
 
 // async function addUser(db,data,id) {
 //   const res = await db.collection('users').doc(id).set({nickname: data.userName});
 // }
+const usersAtRoom=[];
+function addToUsersAtRoom(room,userName){
+  let addRoom = true;
+  let addUser = true;
+  for(let i in usersAtRoom){
+    if (usersAtRoom[i].room === room) {
+    for(let j in usersAtRoom[i].users){
+      if ( usersAtRoom[i].users[j] === userName){
+        addUser = false;
+        addRoom = false;
+        break;
+      }
+    }
+    if(addUser){
+      usersAtRoom[i].users.push(userName);
+      addRoom = false;
+    }
+  }}
+  if(addRoom){
+    let new_room = {room: room, users: [userName]};
+    usersAtRoom.push(new_room);
+  }
+  console.log(usersAtRoom)
+}
+function getCoversationsAtRoom(room){
+  
+}
+
+function getUsersAtRoom(room){
+    let users = [];
+    for(let i in usersAtRoom){
+      if(usersAtRoom[i].room === room) {
+        users = usersAtRoom[i].users;
+        break;
+      }
+    }
+    // console.log(users)
+    return users;
+}
 async function addRoom(db,roomname){
+  if(!rooms.includes(roomname)){
   const res = await db.collection('rooms').doc(roomname).set({conversations:{}});
+  rooms.push(roomname)}
 }
 async function saveConversation(db,data){
   const datetime = getDateTime();
@@ -57,34 +97,25 @@ return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + sec
 }
 
 app.use(express.json);
-// const server = require("http").createServer(app); 
-const roomList = getRoomsList(db);
 
-//send roomList to client - not working yet
-app.get('/rooms' , (req,res)=>{
-  console.log(roomList);
-  res.send(roomList);
-}); 
 const server = app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 const io = require('socket.io')(server, {cors: { origin: "*" }})
 // const rooms = io.of("/").adapter.rooms;
-
-
-
-
-
-
-
+getRoomsList(db);
 io.on('connection',socket =>{
-
+  
+  io.emit('room_list',rooms)
   console.log(socket.id)
   socket.on('join_room', (data) =>{
-    // addUser(db,data,socket.id);
+    // addUser(db,data,socket.id)
+    addToUsersAtRoom(data.room,data.userName);
     addRoom(db,data.room);
+    io.emit('room_list',rooms)
+    let users = getUsersAtRoom(data.room);
     socket.join(data.room);
-    socket.to(data.room).emit("receive_users_at_room", data.userName )
+    io.in(data.room).emit("receive_users_at_room", users);
     console.log(data.userName +' Joined Room: ' + data.room)
   })
   

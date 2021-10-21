@@ -24,18 +24,25 @@ function App() {
   useEffect(()=>{
     socket = io(CONNECTION_PORT)
   },[CONNECTION_PORT])
- 
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
-      console.log(data.author + ":" +data.message);
-      setMessageList([...messageList, data]);
-    });
+  useEffect(()=>{
+    socket.on("room_list", (data) => {
+      // console.log(data);
+      setRoomList(data)
+    })
   });
   useEffect(()=>{
     socket.on("receive_users_at_room", (data) => {
-      setUsersList([...usersList,data])
+      // console.log(data);
+      setUsersList(data)
     })
-  })
+  });
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      // console.log(data.author + ":" +data.message);
+      setMessageList([...messageList, data]);
+    });
+  });
+ 
 
   const connectToRoom = () =>{
     setLoggedIn(true);
@@ -43,7 +50,7 @@ function App() {
       room: room,
       userName: userName
     }
-    setUsersList([...usersList,data.userName])
+    // setUsersList([...usersList,data.userName])
     socket.emit('join_room', data);
   }
   
