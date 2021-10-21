@@ -1,6 +1,7 @@
 import { Container, Row ,Col, Form} from 'react-bootstrap';
 import './Login.css'
 function Login(props){
+    
     return(
         <Container className="formContainer">
             <Form className="form-control">
@@ -13,7 +14,7 @@ function Login(props){
                 <Form.Group className="row selectroom">
                     <Form.Label for="selectroom" className="col-2 col-form-label">Room</Form.Label>
                     <Col sm="5" >      
-                        <Form.Control id="selectroom" type="text" className="form-control-plaintext" placeholder="Enter new Room name..." onChange={(e)=>props.setRoom(e.target.value)}/>
+                        <Form.Control id="selectroom" type="text" className="form-control-plaintext" placeholder="Enter new Room name..." value={props.room} onChange={(e)=>props.setRoom(e.target.value)}/>
                     </Col>
                     <Col sm="5">
                     <Form.Control as="select"  className="roomList list-group" id="room" placeholder="Chouse room from the list..."  onChange={(e)=>props.setRoom(e.target.value)}>
@@ -24,7 +25,7 @@ function Login(props){
                     </Form.Control>
                     </Col>
                 </Form.Group>
-                <Row className="d-grid gap-2 col-4 mx-auto">
+                <Row className="d-grid gap-2 col-4 mx-auto submitbtn">
                     <button className="btn btn-primary" type="submit" onClick={props.connectToRoom}>Enter Chat</button>
                 </Row>
             </Form>
