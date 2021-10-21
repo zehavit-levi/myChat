@@ -68,13 +68,16 @@ function App() {
     }
     await socket.emit("saveConversation",messageContent);
   }
+  const openConversation = async()=>{
+    
+  }
 
   return (
     <div className="App">
       {!loggedIn? 
       <Login setRoom={setRoom} setUserName={setUserName} connectToRoom={connectToRoom} setUsersList={setUsersList} roomList={roomList} room={room}/>
       :
-      <ChatRoom userName = {userName} messageList={messageList} room={room} setMessage={setMessage} sendMessage={sendMessage} usersList={usersList} saveConversation={saveConversation}/>}
+      <ChatRoom userName = {userName} messageList={messageList} room={room} setMessage={setMessage} sendMessage={sendMessage} usersList={usersList} saveConversation={saveConversation} message={message}/>}
   </div>
   );
 }

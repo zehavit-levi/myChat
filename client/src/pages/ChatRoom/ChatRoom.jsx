@@ -1,4 +1,4 @@
-import { Container, Row ,Col, Button} from 'react-bootstrap';
+import { Container, Row ,Col, Button, Modal} from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
 import {MdSend, MdSave, MdOpenInBrowser, MdOutlineInsertEmoticon} from 'react-icons/md';
 import Picker from 'emoji-picker-react';
@@ -6,6 +6,15 @@ import './ChatRoom.css';
 import { useState } from 'react';
 function ChatRoom(props){
  
+    const [showEmojiiModal, setShowEmojiiModal] = useState(false);
+    const handleClose = () => setShowEmojiiModal(false);
+  const handleShow = () => setShowEmojiiModal(true);
+
+  const onEmojiClick = (event, emojiObject) => {
+      console.log(props.message + emojiObject.emoji)
+    props.setMessage(props.message + emojiObject.emoji);
+    handleClose();
+  };
     return(
         <Container className='chatRoomContainer'>
             <Row className="usersandchatrow">
@@ -32,11 +41,14 @@ function ChatRoom(props){
             </Row>
             <Row className="controllers">
                 <Col sm='8'>
-                    <input className="messageInputs"  type='text' placeholder='Message...' onChange={(e)=>{props.setMessage(e.target.value);}} />
+                    <input className="messageInputs" value={props.message}  type='text' placeholder='Message...' onChange={(e)=>{props.setMessage(e.target.value);}}/>
                 </Col>
                 <Col sm='1'>
-                    <a type="button" className='emojii'><MdOutlineInsertEmoticon type="icon"/></a>
+                    <a type="button" onClick={handleShow} className='emojii'><MdOutlineInsertEmoticon type="icon"/></a>
                 </Col>
+                <Modal show={showEmojiiModal} onHide={handleClose}>
+                     <Modal.Body><Picker show={showEmojiiModal} onHide={handleClose} onEmojiClick={onEmojiClick} /></Modal.Body>
+                </Modal>
                 <Col sm='1'>
                     <a type="button" className='send' onClick={props.sendMessage}><MdSend type="icon"/></a >
                 </Col>
