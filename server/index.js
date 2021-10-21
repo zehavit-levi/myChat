@@ -19,7 +19,7 @@ async function getRoomsList(db) {
 snapshot.forEach(doc => {
   rooms.push(doc.id);
 });
- console.log(rooms);
+//  console.log(rooms);
   return rooms;
 }
 
@@ -48,7 +48,7 @@ function addToUsersAtRoom(room,userName){
     let new_room = {room: room, users: [userName]};
     usersAtRoom.push(new_room);
   }
-  console.log(usersAtRoom)
+  // console.log(usersAtRoom)
 }
 function getCoversationsAtRoom(room){
   
@@ -107,7 +107,7 @@ getRoomsList(db);
 io.on('connection',socket =>{
   
   io.emit('room_list',rooms)
-  console.log(socket.id)
+  // console.log(socket.id)
   socket.on('join_room', (data) =>{
     // addUser(db,data,socket.id)
     addToUsersAtRoom(data.room,data.userName);
@@ -120,7 +120,7 @@ io.on('connection',socket =>{
   })
   
   socket.on('send_message', (data) =>{
-    console.log(data);
+    // console.log(data);
     socket.to(data.room).emit("receive_message", data.content);
   })
 
