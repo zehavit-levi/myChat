@@ -1,7 +1,8 @@
 import { Container, Row ,Col, Button} from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
+import {MdSend, MdSave, MdOpenInBrowser, MdOutlineInsertEmoticon} from 'react-icons/md';
 import Picker from 'emoji-picker-react';
-import './ChatRoom.css'
+import './ChatRoom.css';
 import { useState } from 'react';
 function ChatRoom(props){
  
@@ -16,31 +17,34 @@ function ChatRoom(props){
                   })}
                 </Col>
                 <Col sm='9' className="chatContainer">
-                    <Scrollbars ><Row className="messages">
+                    <Scrollbars ><div className="messages">
                     {props.messageList.map((val,key)=>{
                     return (
-                      <Col className="messageContainer" id={val.author === props.userName ? "You" : "Other"}>
-                          <Row className="messageIndividual flex-shrink-1">
+                      <div className="messageContainer" id={val.author === props.userName ? "You" : "Other"}>
+                          <div className="messageIndividual">
                        {val.author === props.userName ? "You":val.author}: {val.message}
-                           </Row>
-                       </Col>
+                           </div>
+                       </div>
                      )})}
-                     </Row>
+                     </div>
                     </Scrollbars>
                 </Col>
             </Row>
             <Row className="controllers">
-                <Col sm='5'>
+                <Col sm='8'>
                     <input className="messageInputs"  type='text' placeholder='Message...' onChange={(e)=>{props.setMessage(e.target.value);}} />
                 </Col>
-                <Col sm='2'>
-                    <Button  onClick={props.sendMessage}>Send</Button >
+                <Col sm='1'>
+                    <a type="button" className='emojii'><MdOutlineInsertEmoticon type="icon"/></a>
                 </Col>
-                <Col sm='2'>
-                    <Button  onClick={props.saveConversation}>Save</Button >
+                <Col sm='1'>
+                    <a type="button" className='send' onClick={props.sendMessage}><MdSend type="icon"/></a >
                 </Col>
-                <Col sm='2'>
-                    <Button  onClick={props.openConversation}>Open</Button >
+                <Col sm='1'>
+                    <a type="button" className='save' onClick={props.saveConversation}><MdSave type="icon"/></a >
+                </Col>
+                <Col sm='1'>
+                    <a type="button" className='open' onClick={props.openConversation}><MdOpenInBrowser type="icon"/></a >
                 </Col>
             </Row>
       </Container>
